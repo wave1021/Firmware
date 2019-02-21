@@ -26,7 +26,7 @@ set(CONFIG_SHMEM "1")
 add_definitions(-DORB_COMMUNICATOR)
 
 # atlflight toolchain doesn't properly set the compiler, so these aren't set automatically
-add_compile_options($<$<COMPILE_LANGUAGE:C>:-std=gnu99>)
+add_compile_options($<$<COMPILE_LANGUAGE:C>:-std=c11>)
 add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-std=gnu++11>)
 
 add_definitions(
