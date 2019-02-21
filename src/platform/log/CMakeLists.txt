@@ -1,6 +1,6 @@
 ############################################################################
 #
-#   Copyright (c) 2017 PX4 Development Team. All rights reserved.
+#   Copyright (c) 2019 PX4 Development Team. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -31,22 +31,11 @@
 #
 ############################################################################
 
-# common board drivers (currently only for nuttx fmu boards)
-add_library(drivers_boards_common
-	board_crashdump.c
-	board_dma_alloc.c
-	board_gpio_init.c
-	)
+add_library(px4_platform_log EXCLUDE_FROM_ALL
+	px4_log.c
+)
+add_dependencies(px4_platform_log prebuild_targets)
 
-if (${CONFIG_ARCH_CHIP} MATCHES "kinetis")
-	add_subdirectory(kinetis)
-elseif (${CONFIG_ARCH_CHIP} MATCHES "stm32")
-	add_subdirectory(stm32)
+if("${PX4_PLATFORM}" MATCHES "posix")
+	target_link_libraries(px4_platform_log PRIVATE px4_daemon)
 endif()
-
-target_link_libraries(drivers_boards_common
-	PRIVATE
-		drivers_boards_common_arch
-		nuttx_arch # bbsram
-		nuttx_mm # dma gran alloc
-	)
