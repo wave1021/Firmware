@@ -43,8 +43,6 @@ set(FW_NAME ${PX4_BOARD_VENDOR}_${PX4_BOARD_MODEL}_${PX4_BOARD_LABEL}.elf)
 set_target_properties(px4 PROPERTIES OUTPUT_NAME ${FW_NAME})
 add_dependencies(px4 git_nuttx nuttx_build)
 
-get_property(module_libraries GLOBAL PROPERTY PX4_MODULE_LIBRARIES)
-
 # build NuttX
 add_subdirectory(NuttX ${PX4_BINARY_DIR}/NuttX)
 
@@ -108,7 +106,7 @@ target_link_libraries(px4 PRIVATE
 	gcc
 	)
 
-target_link_libraries(px4 PRIVATE ${module_libraries})
+target_link_libraries(px4 PRIVATE px4_modules)
 
 if (config_romfs_root)
 	add_subdirectory(${PX4_SOURCE_DIR}/ROMFS ${PX4_BINARY_DIR}/ROMFS)
